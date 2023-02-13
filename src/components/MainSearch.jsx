@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getJobsActionAsync } from "../redux/actions";
 import Job from "./Job";
 
 const MainSearch = () => {
   const [query, setQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
+  const dispatch = useDispatch();
+  const jobsFromTheReduxStore = useSelector(
+    (state) => state.content.stock.data
+  );
+  console.log(jobsFromTheReduxStore);
 
   const navigate = useNavigate();
-
-  const baseEndpoint =
-    "https://strive-benchmark.herokuapp.com/api/jobs?search=";
 
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -18,18 +21,7 @@ const MainSearch = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch(baseEndpoint + query + "&limit=20");
-      if (response.ok) {
-        const { data } = await response.json();
-        setJobs(data);
-      } else {
-        alert("Error fetching results");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(getJobsActionAsync(query));
   };
 
   return (
@@ -50,9 +42,13 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobs.map((jobData) => (
-            <Job key={jobData._id} data={jobData} />
-          ))}
+          {jobsFromTheReduxStore ? (
+            jobsFromTheReduxStore.map((jobData) => (
+              <Job key={jobData._id} data={jobData} />
+            ))
+          ) : (
+            <h1>Is Loadin, please wait...</h1>
+          )}
         </Col>
       </Row>
     </Container>
