@@ -17,3 +17,7 @@ export const addToFavouriteAction = (fav) => ({
 //     payload: fav,
 //       };
 //   };
+
+export const getJobsActionAsync = (query) => {
+  return async (dispatch, getState) => {};
+};
