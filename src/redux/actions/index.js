@@ -7,7 +7,7 @@ export const removeFromFavouriteAction = (fav) => ({
 });
 
 export const addToFavouriteAction = (fav) => ({
-  type: "ADD_TO_FAVOURITE",
+  type: ADD_TO_FAVOURITE,
   payload: fav,
 });
 

@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   addToFavouriteAction,
   removeFromFavouriteAction,
-  REMOVE_FROM_FAVOURITE,
 } from "../redux/actions";
 
 const Job = ({ data }) => {
